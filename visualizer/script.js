@@ -55,6 +55,10 @@
         },
     });
 
+    cy.ready(function() {
+        bindNodesOnClick(nodes);
+    });
+
     function getNodeColor(size) {
         var level = Math.floor((size - 1) / (maxSize / 8));
         return colorsByLevel[level];
@@ -91,6 +95,45 @@
             id: id,
             name: name,
             color: color,
+            popoverContent: getPopoverContent(node),
         };
+    }
+
+    function getPopoverContent(node) {
+        var content = 'size: ' + node.estimatedSize;
+        var attributes = node.attributes;
+        for (attributeName in attributes) {
+            if (attributes.hasOwnProperty(attributeName)) {
+                content += '<br />' + attributeName + ': ' + attributes[attributeName];
+            }
+        }
+        return content;
+    }
+
+    function bindNodesOnClick(nodes) {
+        for (var i = 0; i < nodes.length; i++) {
+            var nodeData = nodes[i].data;
+
+            cy.$('#' + nodeData.id).qtip({
+                content: nodeData.popoverContent,
+                position: {
+                  my: 'top center',
+                  at: 'bottom center'
+                },
+                show: {
+                    event: 'mouseover'
+                },
+                hide: {
+                    event: 'mouseout'
+                },
+                style: {
+                  classes: 'qtip-bootstrap',
+                  tip: {
+                    width: 16,
+                    height: 8
+                  }
+                }
+              });
+        }
     }
 })()
