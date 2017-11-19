@@ -5,7 +5,13 @@
     var idCounter = 0;
     var head = window.domTree.head;
     var body = window.domTree.body;
-    var maxSize = Math.max(head.estimatedSize, body.estimatedSize);
+    var treeMaxSize = head.estimatedSize + body.estimatedSize;
+    var subTreeMaxSize = Math.max(head.estimatedSize, body.estimatedSize);
+    var formatter = new Intl.NumberFormat('en-US');
+    var percentFormatter = new Intl.NumberFormat('en-US', {
+        style: 'percent',
+        maximumFractionDigits: 2,
+    });
 
     var colorsByLevel = [
         '#00c853',
@@ -56,11 +62,23 @@
     });
 
     cy.ready(function() {
-        bindNodesOnClick(nodes);
+        bindPopovers(nodes);
+    });
+
+    cy.on('tap', 'node', function(evt){
+        var node = evt.target;
+        var edges = cy.edges().filter(e => e.source().id() === node.id());
+        edges.forEach(e => {
+            if (e.target().hidden()) {
+                e.target().show();
+            } else {
+                e.target().hide();
+            }
+        });
     });
 
     function getNodeColor(size) {
-        var level = Math.floor((size - 1) / (maxSize / 8));
+        var level = Math.floor((size - 1) / (subTreeMaxSize / 8));
         return colorsByLevel[level];
     }
 
@@ -100,7 +118,10 @@
     }
 
     function getPopoverContent(node) {
-        var content = 'size: ' + node.estimatedSize;
+        var sizePer = node.estimatedSize / treeMaxSize;
+        var content = 'size: ' + formatter.format(node.estimatedSize);
+        content += ' (' + percentFormatter.format(sizePer) + ')';
+
         var attributes = node.attributes;
         for (attributeName in attributes) {
             if (attributes.hasOwnProperty(attributeName)) {
@@ -110,7 +131,7 @@
         return content;
     }
 
-    function bindNodesOnClick(nodes) {
+    function bindPopovers(nodes) {
         for (var i = 0; i < nodes.length; i++) {
             var nodeData = nodes[i].data;
 
