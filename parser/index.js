@@ -3,10 +3,14 @@ const parse5 = require('parse5');
 
 exports.parseFile = (filePath) => {
     const file = fs.readFileSync(filePath, 'utf8');
-    const document = parse5.parse(file);
-    const html = document.childNodes.find(node => node.nodeName === 'html');
+    return exports.parseHtmlString(file);
+};
+
+exports.parseHtmlString = (htmlString) => {
+    const document = parse5.parse(htmlString);
+    const htmlElement = document.childNodes.find(node => node.nodeName === 'html');
     return {
-        root: parseNode(html),
+        root: parseNode(htmlElement),
     };
 };
 
