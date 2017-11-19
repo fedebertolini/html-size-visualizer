@@ -1,7 +1,8 @@
-(function() {
+(function () {
 
     var nodes = [];
     var edges = [];
+    var childrenData = new Map(); //holds nodes' children info for restoration
     var idCounter = 0;
     var head = window.domTree.head;
     var body = window.domTree.body;
@@ -61,24 +62,41 @@
         },
     });
 
-    cy.ready(function() {
+    for (var x = 0; x < nodes.length; x++) {
+        var curNode = cy.$('#' + nodes[x].data.id);
+        var id = curNode.data('id');
+        //get its connectedEdges and connectedNodes
+        var connectedEdges = curNode.connectedEdges(function () {
+            //filter on connectedEdges
+            return !curNode.target().anySame(curNode);
+        });
+        var connectedNodes = connectedEdges.targets();
+        childrenData.set(id, {
+            data: connectedNodes.union(connectedEdges),
+        });
+    }
+
+    cy.on('tap', 'node', function () {
+        var nodes = this;
+        var id = nodes.data('id')
+
+        if (childrenData.get(id).removed == true) {
+            childrenData.get(id).data.restore();
+            childrenData.get(id).removed = false;
+        } else {
+            recursivelyRemove(id, nodes);
+        }
+    });
+
+    cy.ready(function () {
         bindPopovers(nodes);
     });
 
-    cy.on('tap', 'node', function(evt){
-        var node = evt.target;
-        var edges = cy.edges().filter(e => e.source().id() === node.id());
-        edges.forEach(e => {
-            if (e.target().hidden()) {
-                e.target().show();
-            } else {
-                e.target().hide();
-            }
-        });
-    });
+    function getNodeSizeLevel(size) {
+        return Math.floor((size - 1) / (subTreeMaxSize / 8));
+    }
 
-    function getNodeColor(size) {
-        var level = Math.floor((size - 1) / (subTreeMaxSize / 8));
+    function getNodeColor(level) {
         return colorsByLevel[level];
     }
 
@@ -88,7 +106,7 @@
             data: nodeData,
         });
         if (node.children && node.children.length) {
-            for(var i = 0; i < node.children.length; i++) {
+            for (var i = 0; i < node.children.length; i++) {
                 var childId = mapNode(node.children[i]);
                 edges.push({
                     data: {
@@ -104,7 +122,8 @@
 
     function getNodeData(node) {
         var id = ++idCounter;
-        var color = getNodeColor(node.estimatedSize);
+        var sizeLevel = getNodeSizeLevel(node.estimatedSize);
+        var color = getNodeColor(sizeLevel);
         var name = node.tagName;
         if (node.attributes.id) {
             name += '#' + node.attributes.id;
@@ -113,6 +132,7 @@
             id: id,
             name: name,
             color: color,
+            sizeLevel: sizeLevel,
             popoverContent: getPopoverContent(node),
         };
     }
@@ -138,8 +158,8 @@
             cy.$('#' + nodeData.id).qtip({
                 content: nodeData.popoverContent,
                 position: {
-                  my: 'top center',
-                  at: 'bottom center'
+                    my: 'top center',
+                    at: 'bottom center'
                 },
                 show: {
                     event: 'mouseover'
@@ -148,13 +168,39 @@
                     event: 'mouseout'
                 },
                 style: {
-                  classes: 'qtip-bootstrap',
-                  tip: {
-                    width: 16,
-                    height: 8
-                  }
+                    classes: 'qtip-bootstrap',
+                    tip: {
+                        width: 16,
+                        height: 8
+                    }
                 }
-              });
+            });
+        }
+    }
+
+    function recursivelyRemove(id, nodes) {
+        var toRemove = [];
+        for (;;) {
+            nodes.forEach(function (node) {
+                childrenData.get(node.data('id')).removed = true;
+            });
+
+            var connectedEdges = nodes.connectedEdges(function (el) {
+                //getting connectedEdges from all the nodes that only go down the tree
+                //aka not keeping edges where their target is a node in the current group of nodes
+                return !el.target().anySame(nodes);
+            });
+
+            var connectedNodes = connectedEdges.targets();
+            Array.prototype.push.apply(toRemove, connectedNodes);
+            nodes = connectedNodes;
+
+            if (nodes.empty()) {
+                break;
+            }
+        }
+        for (var i = toRemove.length - 1; i >= 0; i--) {
+            toRemove[i].remove();
         }
     }
 })()
