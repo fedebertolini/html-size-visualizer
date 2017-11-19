@@ -3,8 +3,9 @@
     var nodes = [];
     var edges = [];
     var idCounter = 0;
-    var root = window.domTree.root;
-    var maxSize = window.domTree.root.estimatedSize;
+    var head = window.domTree.head;
+    var body = window.domTree.body;
+    var maxSize = Math.max(head.estimatedSize, body.estimatedSize);
 
     var colorsByLevel = [
         '#00c853',
@@ -17,7 +18,8 @@
         '#bf360c',
     ];
 
-    mapNode(window.domTree.root);
+    mapNode(window.domTree.head);
+    mapNode(window.domTree.body);
 
     var cy = window.cy = cytoscape({
         container: document.body,
