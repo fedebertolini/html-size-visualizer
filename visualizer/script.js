@@ -61,27 +61,36 @@
     }
 
     function mapNode(node) {
-        var id = ++idCounter;
-        var color = getNodeColor(node.estimatedSize);
+        var nodeData = getNodeData(node);
         nodes.push({
-            data: {
-                id: id,
-                name: node.tagName || 'text',
-                color: color,
-            },
+            data: nodeData,
         });
         if (node.children && node.children.length) {
             for(var i = 0; i < node.children.length; i++) {
                 var childId = mapNode(node.children[i]);
                 edges.push({
                     data: {
-                        source: id,
+                        source: nodeData.id,
                         target: childId,
-                        color: color,
+                        color: nodeData.color,
                     },
                 });
             }
         }
-        return id;
+        return nodeData.id;
+    }
+
+    function getNodeData(node) {
+        var id = ++idCounter;
+        var color = getNodeColor(node.estimatedSize);
+        var name = node.tagName;
+        if (node.attributes.id) {
+            name += '#' + node.attributes.id;
+        }
+        return {
+            id: id,
+            name: name,
+            color: color,
+        };
     }
 })()
