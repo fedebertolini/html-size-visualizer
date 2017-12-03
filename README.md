@@ -10,7 +10,7 @@ The graph is intended to detect possible optimizations by trimming out the bigge
 sub-trees.
 
 Example:
-![alt text](https://i.imgur.com/0q7RfhC.png "Example")
+![Example](https://i.imgur.com/0q7RfhC.png)
 
 ## Installation
 ```
