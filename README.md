@@ -9,7 +9,10 @@ subtree (always one of the tree roots: `<head>` or `<body>`) and green for the s
 The graph is intended to detect possible optimizations by trimming out the biggests
 sub-trees.
 
-## Instalation
+Example:
+![alt text](https://i.imgur.com/0q7RfhC.png "Example")
+
+## Installation
 ```
 git clone git@github.com:fedebertolini/html-size-visualizer.git
 cd html-size-visualizer
