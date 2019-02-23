@@ -4,13 +4,13 @@
 Simple node app that parses a HTML document and creates a graph representation of the document.
 Each HTML tag is represented with a node. Each node is colored depending on its sub-tree's
 estimated size (in characters) using a green-red scale, red for the node with the biggest
-subtree (always one of the tree roots: `<head>` or `<body>`) and green for the smallest leafs.
+subtree (always the root `<html>` tag) and green for the smallest leafs.
 
 The graph is intended to detect possible optimizations by trimming out the biggests
 sub-trees.
 
 Example:
-![Example](https://i.imgur.com/0q7RfhC.png)
+![Example](./Screenshot.png)
 
 ## Installation
 ```
