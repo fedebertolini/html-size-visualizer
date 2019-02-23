@@ -8,15 +8,8 @@ exports.parseFile = (filePath) => {
 
 exports.parseHtmlString = (htmlString) => {
     const document = parse5.parse(htmlString);
-
     const htmlElement = findNodeChild(document, 'html');
-    const head = findNodeChild(htmlElement, 'head');
-    const body = findNodeChild(htmlElement, 'body');
-
-    return {
-        head: parseTag(head),
-        body: parseTag(body),
-    };
+    return parseTag(htmlElement);
 };
 
 const findNodeChild = (element, nodeName) =>
