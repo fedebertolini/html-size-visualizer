@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parser should parse the simple html file 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "lang": "en",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [],
+          "estimatedSize": 26,
+          "nodeType": "tag",
+          "tagName": "title",
+        },
+        Object {
+          "attributes": Object {
+            "content": "This is a simple HTML document",
+            "name": "description",
+          },
+          "children": Array [],
+          "estimatedSize": 73,
+          "nodeType": "tag",
+          "tagName": "meta",
+        },
+      ],
+      "estimatedSize": 122,
+      "nodeType": "tag",
+      "tagName": "head",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [],
+          "estimatedSize": 20,
+          "nodeType": "tag",
+          "tagName": "h1",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [],
+          "estimatedSize": 37,
+          "nodeType": "tag",
+          "tagName": "p",
+        },
+      ],
+      "estimatedSize": 85,
+      "nodeType": "tag",
+      "tagName": "body",
+    },
+  ],
+  "estimatedSize": 220,
+  "nodeType": "tag",
+  "tagName": "html",
+}
+`;
