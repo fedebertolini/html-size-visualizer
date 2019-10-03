@@ -1,6 +1,6 @@
 const Mustache = require('mustache');
 const fs = require('fs');
-const opn = require('opn');
+const open = require('open');
 
 exports.render = (data) =>
     readVisualizerFiles()
@@ -13,7 +13,7 @@ exports.render = (data) =>
         };
         const rendered = Mustache.render(files.template, renderParams);
         fs.writeFileSync(distPath, rendered, 'utf8');
-        opn(distPath, { wait: false });
+        open(distPath, { wait: false });
     });
 
 const readVisualizerFiles = () => {
