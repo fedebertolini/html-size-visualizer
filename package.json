@@ -10,13 +10,13 @@
     "test": "jest"
   },
   "dependencies": {
-    "axios": "^0.19.0",
-    "minimist": "^1.2.0",
-    "mustache": "^2.3.2",
-    "open": "^6.4.0",
-    "parse5": "^5.1.0"
+    "axios": "^0.19.2",
+    "minimist": "^1.2.5",
+    "mustache": "^4.0.1",
+    "open": "^7.0.3",
+    "parse5": "^6.0.0"
   },
   "devDependencies": {
-    "jest": "^24.9.0"
+    "jest": "^26.0.1"
   }
 }
