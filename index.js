@@ -1,11 +1,15 @@
+#!/usr/bin/env node
+
 const sade = require('sade');
 const axios = require('axios');
 const fs = require('fs');
+const pck = require('./package.json');
 const parser = require('./parser');
 const visualizer = require('./visualizer');
 
 (async () => {
     sade('html-size-visualizer [url|filePath]', true)
+        .version(pck.version)
         .describe('Visualize an HTML document as a tree and detect the biggest sub-trees')
         .example('http://www.example.com')
         .example('./my-homepage.html')

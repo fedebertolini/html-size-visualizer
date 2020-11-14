@@ -1,11 +1,12 @@
 const Mustache = require('mustache');
 const fs = require('fs');
+const path = require('path');
 const open = require('open');
 
 exports.render = (data) =>
     readVisualizerFiles()
     .then(files => {
-        const distPath = process.cwd() + '/dist/' + (new Date).getTime() + '.html';
+        const distPath = path.join(__dirname, '..', 'dist', `${Date.now()}.html`);
         const renderParams = {
             data: JSON.stringify(data),
             styles: files.styles,
@@ -17,9 +18,9 @@ exports.render = (data) =>
     });
 
 const readVisualizerFiles = () => {
-    const templatePath = process.cwd() + '/visualizer/template.mustache';
-    const scriptPath = process.cwd() + '/visualizer/script.js';
-    const stylesPath = process.cwd() + '/visualizer/styles.css';
+    const templatePath = path.join(__dirname, 'template.mustache');
+    const scriptPath = path.join(__dirname, 'script.js');
+    const stylesPath = path.join(__dirname, 'styles.css');
 
     return Promise.all([
         readFile(templatePath),

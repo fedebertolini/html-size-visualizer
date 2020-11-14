@@ -1,7 +1,7 @@
 # html-size-visualizer
 
 ## Description
-Simple node app that parses a HTML document and creates a graph representation of the document.
+Simple CLI that parses a HTML document and creates a graph representation of the document.
 Each HTML tag is represented with a node. Each node is colored depending on its sub-tree's
 estimated size (in characters) using a green-red scale, red for the node with the biggest
 subtree (always the root `<html>` tag) and green for the smallest leafs.
@@ -14,18 +14,18 @@ Example:
 
 ## Installation
 ```
-git clone git@github.com:fedebertolini/html-size-visualizer.git
-cd html-size-visualizer
-npm install
+npm -g html-size-visualizer
 ```
 
 ## Usage
+The CLI requires only one argument: either a URL or a local file path.
+
 To parse a local HTML file:
 ```
-node index.js --path myFile.html
+html-size-visualizer myFile.html
 ```
 
 To parse a website's HTML:
 ```
-node index.js --url http://www.example.com
+html-size-visualizer http://www.example.com
 ```

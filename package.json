@@ -6,6 +6,9 @@
   "repository": "git@github.com:fedebertolini/html-size-visualizer.git",
   "author": "Federico Bertolini",
   "license": "MIT",
+  "bin": {
+    "html-size-visualizer": "./index.js"
+  },
   "scripts": {
     "test": "jest"
   },
