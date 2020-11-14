@@ -10,7 +10,7 @@ The graph is intended to detect possible optimizations by trimming out the bigge
 sub-trees.
 
 Example:
-![Example](./Screenshot.png)
+![Example](https://github.com/fedebertolini/html-size-visualizer/raw/master/Screenshot.png)
 
 ## Installation
 ```
