@@ -1,6 +1,6 @@
 {
   "name": "html-size-visualizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Visualize an HTML document as a tree and detect the biggest sub-trees",
   "main": "index.js",
   "repository": "git@github.com:fedebertolini/html-size-visualizer.git",
