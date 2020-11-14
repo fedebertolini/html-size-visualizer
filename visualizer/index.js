@@ -1,5 +1,6 @@
 const Mustache = require('mustache');
 const fs = require('fs');
+const chalk = require('chalk');
 const path = require('path');
 const open = require('open');
 const tmp = require('tmp');
@@ -17,7 +18,7 @@ exports.render = (data) =>
         };
         const rendered = Mustache.render(files.template, renderParams);
         fs.writeFileSync(distPath, rendered, 'utf8');
-        console.log('Report file created', distPath)
+        console.log(`Report file created in ${chalk.magenta(distPath)}`)
         open(distPath, { wait: false });
     });
 
