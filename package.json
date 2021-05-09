@@ -13,10 +13,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "chalk": "^4.1.0",
-    "mustache": "^4.0.1",
-    "open": "^7.3.0",
+    "mustache": "^4.2.0",
+    "open": "^8.0.8",
     "parse5": "^6.0.1",
     "sade": "^1.7.4",
     "tmp": "^0.2.1"
